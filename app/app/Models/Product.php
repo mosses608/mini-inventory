@@ -27,7 +27,8 @@ class Product extends Model
         'image',
     ];
 
-    public static function find($id){
+    public static function single_find($id){
+        
         $products = self::all();
 
         foreach ($products as $product) {

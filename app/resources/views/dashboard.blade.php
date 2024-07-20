@@ -25,30 +25,26 @@
         <table>
             <tr>
                 <th>#</th>
-                <th>Image</th>
+                <!-- <th>Image</th> -->
                 <th>Product Id</th>
                 <th>Name</th>
                 <th>Quantity</th>
                 <th>Price</th>
                 <th>Brand</th>
                 <th>Date Created</th>
-                <th>Action</th>
+                <!-- <th>Action</th> -->
             </tr>
             @foreach($sales as $sale)
             <tr>
                 <td>#</td>
-                @foreach($products as $product)
-                @if($product->product_id == $sale->product_id)
-                <td><img src="{{asset('storage/' . $product->image)}}" alt="Image"></td>
-                @endif
-                @endforeach
+                <!-- <td><img src="{{asset('storage/' . $sale->image)}}" alt="Image"></td> -->
                 <td>{{$sale->product_id}}</td>
                 <td>{{$sale->product_name}}</td>
                 <td>{{$sale->quantity}}</td>
-                <td>{{$sale->price}}</td>
+                <td>{{$sale->totalprice}}</td>
                 <td>{{$sale->brand}}</td>
                 <td>{{$sale->created_at}}</td>
-                <td><a href="/single-product/{{$sale->id}}"><i class="fa fa-eye"></i></a></td>
+                <!-- <td><a href="/single-product/{{$sale->id}}"><i class="fa fa-eye"></i></a></td> -->
             </tr>
             @endforeach
         </table>    

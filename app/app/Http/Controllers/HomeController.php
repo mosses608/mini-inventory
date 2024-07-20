@@ -26,7 +26,13 @@ class HomeController extends Controller
     }
 
     public function dashboard(){
-        $profit = Sale::sum('price');
+
+        $sales = Sale::all();
+        $profit = $sales->sum(function($sale) {
+            return $sale->quantity * $sale->price;
+        });
+    
+
         return view('dashboard',[
             'sales' => Sale::latest()->filter(request(['search']))->paginate(10),
             'products' => Product::all(),
@@ -62,10 +68,17 @@ class HomeController extends Controller
 
     }
 
-    public function single_product($id){
-        return view('single-product',[
-            'sale' => Sale::single($id),
-            'products' => Product::all(),    
+    public function single_product($id) {
+        $sale = Sale::find($id); // Find the sale by ID
+        
+        // Debugging line to check if the correct sale is being fetched
+        if (!$sale) {
+            return redirect('/dashboard')->with('error', 'Sale not found!');
+        }
+    
+        return view('single-product', [
+            'sale' => $sale,
+            'products' => Product::all(),
         ]);
     }
 
@@ -114,13 +127,13 @@ class HomeController extends Controller
 
     public function import_product(){
 
-        $products = DB::table('products')->select('quantity')->groupBy('quantity')->get();
+        $myproducts = DB::table('products')->select('quantity')->groupBy('quantity')->get();
 
-        foreach ($products as $product) {
-            if($product->quantity < 20){
-                Product::where('quantity', $product->quantity)->update(['status' => 'Less']);
+        foreach ($myproducts as $myproduct) {
+            if($myproduct->quantity < 20){
+                Product::where('quantity', $myproduct->quantity)->update(['status' => 'Less']);
             }else{
-                Product::where('quantity', $product->quantity)->update(['status' => 'Good']);
+                Product::where('quantity', $myproduct->quantity)->update(['status' => 'Good']);
             }
         }
 
@@ -155,9 +168,16 @@ class HomeController extends Controller
         return redirect()->back()->with('success_product_added','Product added successfully!');
     }
 
-    public function single_import_product($id){
-        return view('single-import',[
-            'product' => Product::find($id),
+    public function single_import_product($id) {
+
+        $product = Product::find($id); // Fetch the product by ID
+    
+        if (!$product) {
+            return redirect('/import-product')->with('error', 'Product not found!');
+        }
+    
+        return view('single-import', [
+            'product' => $product,
         ]);
     }
 

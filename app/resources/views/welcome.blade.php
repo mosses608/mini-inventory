@@ -42,8 +42,8 @@
     <a href="#" id="close-menu" onclick="closeSideMenu()">&times;</a>
     <a href="/">Home</a><br><br>
     <a href="#">About Us</a><br><br>
-    <a href="#">Import Product</a><br><br>
-    <a href="#">Export Product</a><br><br>
+    <a href="/import-product">Inventory</a><br><br>
+    <a href="/dashboard">Export/Sale</a><br><br>
     <a href="/signin">Login</a><br><br>
 </div>
 

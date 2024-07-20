@@ -24,9 +24,11 @@ class Sale extends Model
         'price',
         'brand',
         // 'image',
+        'totalprice',
     ];
 
-    public static function single($id){
+    public static function find($id){
+
         $sales = self::all();
 
         foreach ($sales as $sale) {
